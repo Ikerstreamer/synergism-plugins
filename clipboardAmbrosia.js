@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Import from Clipboard
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/Ikerstreamer/synergism-plugins
 // @version      0.1
 // @description  A simple script for the game synergism that allows you to import ambrosia loadouts via clipboard.
 // @author       IkerStream
