@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto Swap Ambrosia Layout
 // @namespace    https://github.com/Ikerstreamer/synergism-plugins
-// @version      0.1.2
+// @version      0.1.3
 // @description  A simple script for the game Synergism that  auto swaps between 2 ambrosia loadouts while on the ambrosia tab.
 // @author       IkerStream
 // @match        https://synergism.cc/
@@ -55,7 +55,7 @@
         const container = document.createElement("div");
         container.style.display = "flex";
         container.style.justifyContent = "space-between";
-        container.style.width = ambrosiaBar.computedStyleMap().get("width");
+        container.style.width = ambrosiaBar.computedStyleMap ? ambrosiaBar.computedStyleMap().get("width") : "25%";
         container.insertAdjacentElement("beforeend", loadoutStandard);
         container.insertAdjacentElement("beforeend", infoText);
         container.insertAdjacentElement("beforeend", loadoutLuck);
