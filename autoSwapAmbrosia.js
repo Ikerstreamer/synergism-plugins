@@ -25,7 +25,7 @@
             .toSorted((elem1, elem2) => elem1.id[-1] - elem2.id[-1]);
 
         function ambrosiaTabActive() {
-            return singTabButton.style.backgroundColor && ambrosiaTab.classList.contains("active-subtab");
+            return singTabButton.style.backgroundColor != undefined && ambrosiaTab.classList.contains("active-subtab");
         }
 
         const loadoutStandard = document.createElement("select");
@@ -140,12 +140,7 @@
                 okButton.click();
                 ambrosiaLoadoutSelected = false;
             }
-
-            if (ambrosiaTabActive()) {
-                setTimeout(loop, 100);
-            } else {
-
-            }
+            setTimeout(loop, 100);
         }
         ambrosiaTab.addEventListener("click", () => !currentlyLooping && loop());
         singTabButton.addEventListener("click", () => !currentlyLooping && loop());
