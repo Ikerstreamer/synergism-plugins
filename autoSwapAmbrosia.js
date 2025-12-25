@@ -148,17 +148,21 @@
 
             const [rateBlue, rateRed] = [(widthBlue - lastReading.blue) / diffInSeconds, (widthRed - lastReading.red) / diffInSeconds];
 
-            const barFillWithinOneSec = [widthBlue + rateBlue, widthRed + rateRed].some(val => val >= 100);
+
 
             lastReading.blue = {
                 width: widthBlue,
                 rate: lastReading.blue.rate * 0.9 + rateBlue * 0.1
             };
+
             lastReading.red = {
                 width: widthRed,
                 rate: lastReading.red.rate * 0.9 + rateRed * 0.1
             };
+
             lastReading.time = Date.now();
+
+            const barFillWithinOneSec = [widthBlue + lastReading.blue.rate, widthRed + lastReading.red.rate].some(val => val >= 100);
 
             if (!ambrosiaLoadoutSelected && barFillWithinOneSec) {
                 loadoutSlots.at(loadoutLuck.selectedIndex).click();
