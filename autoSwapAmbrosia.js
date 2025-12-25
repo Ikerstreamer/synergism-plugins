@@ -146,7 +146,7 @@
             const [widthBlue, widthRed] = [parseFloat(ambrosiaProgress.style.width), parseFloat(redAmbrosiaProgress.style.width)];
             const diffInSeconds = (Date.now() - lastReading.time) / 1000;
 
-            const [rateBlue, rateRed] = [(widthBlue - lastReading.blue) / diffInSeconds, (widthRed - lastReading.red) / diffInSeconds];
+            const [rateBlue, rateRed] = [(widthBlue - lastReading.blue.width) / diffInSeconds, (widthRed - lastReading.red.width) / diffInSeconds];
 
 
 
