@@ -15,3 +15,9 @@ A script that swaps to a specified loadout when the ambrosia bar is about to fil
 <br>
 [Userscript Install Link](https://update.greasyfork.org/scripts/559564/Auto%20Swap%20Ambrosia%20Layout.user.js)
 
+## Ambrosia Loadout Quickbar
+Taking inspiration from [Hypersynergism](https://ahvonenj.github.io/synergism-hypersynergy/#features), I made a standalone script for the loadout bar.
+<br>
+<img width="1550" height="200" alt="image" src="https://github.com/user-attachments/assets/2fe668dc-0b14-4dd8-a511-20f6d132168d" />
+<br>
+[Userscript Install Link](https://update.greasyfork.org/scripts/560135/Ambrosia%20Loadout%20Quickbar.user.js)
