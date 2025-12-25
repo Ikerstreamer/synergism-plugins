@@ -1,0 +1,20 @@
+.ambrosia-quick-bar-active {
+  border-image: "conic-gradient(from var(--angle), #ff5e00, #ff9a00, #ffcd00, #e5ff00, #a5ff00, #00ffc8, #00c8ff, #00a5ff, #9500ff, #ff00e1, #ff0095, #ff5e00) 1";
+  animation: "hue-rotate 6s linear infinite";
+}
+
+@keyframes hue-rotate {
+  100% {
+    --angle: 360deg;
+  }
+}
+
+.ambrosia-quick-bar-loadout-container {
+  display: flex;
+  justify-content: center;
+  padding: 0px;
+  width: auto;
+  gap: 4px;
+  margin: 0px 4% 10px 0px;
+  align-self: flex-end;
+}
