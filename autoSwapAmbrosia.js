@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto Swap Ambrosia Layout
 // @namespace    https://github.com/Ikerstreamer/synergism-plugins
-// @version      0.1.5
+// @version      0.1.6
 // @description  A simple script for the game Synergism that  auto swaps between 2 ambrosia loadouts while on the ambrosia tab.
 // @author       IkerStream
 // @match        https://synergism.cc/
@@ -131,13 +131,13 @@
                 infoText.textContent = "Auto swap disabled, set MODE to LOAD LOADOUT";
                 return;
             }
-
-            if (!ambrosiaLoadoutSelected && Math.max(parseFloat(ambrosiaProgress.style.width), parseFloat(redAmbrosiaProgress.style.width)) > 97) {
+            const furthestProgressedBar = Math.max(parseFloat(ambrosiaProgress.style.width), parseFloat(redAmbrosiaProgress.style.width));
+            if (!ambrosiaLoadoutSelected && furthestProgressedBar > 97) {
                 loadoutSlots.at(loadoutLuck.selectedIndex).click();
                 okButton.click();
                 ambrosiaLoadoutSelected = true;
             }
-            if (ambrosiaLoadoutSelected && Math.max(parseFloat(ambrosiaProgress.style.width), parseFloat(redAmbrosiaProgress.style.width)) < 97) {
+            if (ambrosiaLoadoutSelected && furthestProgressedBar < 97) {
                 loadoutSlots.at(loadoutStandard.selectedIndex).click();
                 okButton.click();
                 ambrosiaLoadoutSelected = false;
