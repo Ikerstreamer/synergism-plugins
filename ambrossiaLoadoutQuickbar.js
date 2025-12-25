@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Ambrosia Loadout Quickbar
 // @namespace    https://github.com/Ikerstreamer/synergism-plugins
-// @version      0.1
+// @version      0.1.1
 // @description  A simple script for the game synergism that allows you to import ambrosia loadouts via clipboard.
 // @author       IkerStream
 // @match        https://synergism.cc/
@@ -17,12 +17,53 @@
             .filter((elem) => elem.id.match(/^blueberryLoadout[1-8]$/))
             .toSorted((elem1, elem2) => elem1.id[-1] - elem2.id[-1]);
         const toggleButton = document.getElementById("blueberryToggleMode");
-        const cssFile = document.createElement("link");
-        cssFile.rel = "stylesheet";
-        cssFile.href = "https://raw.githubusercontent.com/Ikerstreamer/synergism-plugins/refs/heads/main/loadoutStyles.css";
+        const cssFile = document.createElement("style");
+        cssFile.textContent = `
+        @keyframes hue-rotate {
+            to {
+                --angle: 360deg;
+            }
+        }
+
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        .ambrosia-quick-bar-active {
+            --angle: 0deg;
+            border-image: conic-gradient(
+                from var(--angle),
+                #ff5e00,
+                #ff9a00,
+                #ffcd00,
+                #e5ff00,
+                #a5ff00,
+                #00ffc8,
+                #00c8ff,
+                #00a5ff,
+                #9500ff,
+                #ff00e1,
+                #ff0095,
+                #ff5e00
+                )
+                1;
+            animation: hue-rotate 6s linear infinite;
+        }
+        .ambrosia-quick-bar-loadout-container {
+            display: flex;
+            justify-content: center;
+            padding: 0px;
+            width: auto;
+            gap: 4px;
+            margin: 0px 4% 10px 0px;
+            align-self: flex-end;
+        }
+        `;
 
         document.getElementsByTagName("head").item(0)
-            .insertAdjacentElement("beforeend", cssFile);
+            .appendChild(cssFile);
 
         const container = document.createElement("div");
         container.classList.add("ambrosia-quick-bar-loadout-container");
