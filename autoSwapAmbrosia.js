@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto Swap Ambrosia Layout
 // @namespace    https://github.com/Ikerstreamer/synergism-plugins
-// @version      0.1.4
+// @version      0.1.5
 // @description  A simple script for the game Synergism that  auto swaps between 2 ambrosia loadouts while on the ambrosia tab.
 // @author       IkerStream
 // @match        https://synergism.cc/
@@ -144,6 +144,9 @@
         }
         ambrosiaTab.addEventListener("click", () => !currentlyLooping && loop());
         singTabButton.addEventListener("click", () => !currentlyLooping && loop());
+
+        // Ensure the listener gets detached
+        elem.removeEventListener("click", callback);
     };
 
     function setup() {
