@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Auto Swap Ambrosia Layout
 // @namespace    https://github.com/Ikerstreamer/synergism-plugins
-// @version      0.1.6
+// @version      0.1.7
 // @description  A simple script for the game Synergism that  auto swaps between 2 ambrosia loadouts while on the ambrosia tab.
 // @author       IkerStream
 // @match        https://synergism.cc/
@@ -114,11 +114,17 @@
 
         toggleButton.addEventListener("click", () => {
             infoText.textContent = "Auto swapping between loadouts.";
-            loop();
+            startLoop();
         });
 
         let ambrosiaLoadoutSelected = false;
         let currentlyLooping = false;
+
+        const lastReading = {
+            time: Date.now(),
+            blue: parseFloat(ambrosiaProgress.style.width),
+            red: parseFloat(redAmbrosiaProgress.style.width),
+        };
         function loop() {
             currentlyLooping = true;
             if (!ambrosiaTabActive()) {
@@ -131,21 +137,41 @@
                 infoText.textContent = "Auto swap disabled, set MODE to LOAD LOADOUT";
                 return;
             }
-            const furthestProgressedBar = Math.max(parseFloat(ambrosiaProgress.style.width), parseFloat(redAmbrosiaProgress.style.width));
-            if (!ambrosiaLoadoutSelected && furthestProgressedBar > 97) {
+            const [widthBlue, widthRed] = [parseFloat(ambrosiaProgress.style.width), parseFloat(redAmbrosiaProgress.style.width)];
+            const diffInSeconds = (Date.now() - lastReading.time) / 1000;
+
+            const [rateBlue, rateRed] = [(widthBlue - lastReading.blue) / diffInSeconds, (widthRed - lastReading.red) / diffInSeconds];
+
+            const barFillWithinOneSec = [widthBlue + rateBlue, widthRed + rateRed].some(val => val >= 100);
+
+            lastReading.blue = widthBlue;
+            lastReading.red = widthRed;
+            lastReading.time = Date.now();
+            console.log([widthBlue, widthRed], [rateBlue, rateRed], diffInSeconds, barFillWithinOneSec);
+            if (!ambrosiaLoadoutSelected && barFillWithinOneSec) {
                 loadoutSlots.at(loadoutLuck.selectedIndex).click();
                 okButton.click();
                 ambrosiaLoadoutSelected = true;
             }
-            if (ambrosiaLoadoutSelected && furthestProgressedBar < 97) {
+            if (ambrosiaLoadoutSelected && !barFillWithinOneSec) {
                 loadoutSlots.at(loadoutStandard.selectedIndex).click();
                 okButton.click();
                 ambrosiaLoadoutSelected = false;
             }
             setTimeout(loop, 100);
         }
-        ambrosiaTab.addEventListener("click", () => !currentlyLooping && loop());
-        singTabButton.addEventListener("click", () => !currentlyLooping && loop());
+
+        function startLoop() {
+            if (currentlyLooping)
+                return;
+            lastReading.time = Date.now();
+            lastReading.blue = parseFloat(ambrosiaProgress.style.width);
+            lastReading.red = parseFloat(redAmbrosiaProgress.style.width);
+            loop();
+        }
+
+        ambrosiaTab.addEventListener("click", startLoop);
+        singTabButton.addEventListener("click", startLoop);
 
         // Ensure the listener gets detached
         elem.removeEventListener("click", callback);
