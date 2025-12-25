@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Ambrosia Loadout Quickbar
 // @namespace    https://github.com/Ikerstreamer/synergism-plugins
-// @version      0.1.1
+// @version      0.1.2
 // @description  A simple script for the game synergism that allows you to import ambrosia loadouts via clipboard.
 // @author       IkerStream
 // @match        https://synergism.cc/
@@ -82,7 +82,7 @@
             elem.classList.remove("ambrosia-quick-bar-active");
         }
 
-        let selectedLoadout = -1;
+
         const quickButtons = [];
         for (let i = 0; i < 8; i++) {
             const newButton = document.createElement("button");
@@ -97,13 +97,6 @@
 
                 loadoutSlots.at(i).click();
                 okButton.click();
-                if (selectedLoadout > -1) {
-                    removeActiveBorder(quickButtons.at(selectedLoadout));
-                    removeActiveBorder(loadoutSlots.at(selectedLoadout));
-                }
-                setActiveBorder(newButton);
-                setActiveBorder(loadoutSlots.at(i));
-                selectedLoadout = i;
 
                 if (swapBack) {
                     toggleButton.click();
@@ -113,7 +106,20 @@
             newButton.textContent = i + 1;
             quickButtons.push(newButton);
             container.insertAdjacentElement("beforeend", newButton);
-        }
+        };
+
+        let selectedLoadout = -1;
+        loadoutSlots.forEach((slot, i) => {
+            slot.addEventListener("click", () => {
+                if (selectedLoadout > -1) {
+                    removeActiveBorder(quickButtons.at(selectedLoadout));
+                    removeActiveBorder(loadoutSlots.at(selectedLoadout));
+                }
+                setActiveBorder(slot);
+                setActiveBorder(quickButtons.at(i));
+                selectedLoadout = i;
+            });
+        });
 
         document.querySelector("header div.subHeader").insertAdjacentElement("afterend", container);
 
