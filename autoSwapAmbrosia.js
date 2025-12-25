@@ -144,26 +144,22 @@
                 return;
             }
             const [widthBlue, widthRed] = [parseFloat(ambrosiaProgress.style.width), parseFloat(redAmbrosiaProgress.style.width)];
+
+
             const diffInSeconds = (Date.now() - lastReading.time) / 1000;
 
-            const [rateBlue, rateRed] = [(widthBlue - lastReading.blue.width) / diffInSeconds, (widthRed - lastReading.red.width) / diffInSeconds];
+            if (diffInSeconds > 0) {
+                const [rateBlue, rateRed] = [(widthBlue - lastReading.blue.width) / diffInSeconds, (widthRed - lastReading.red.width) / diffInSeconds];
+                lastReading.blue.rate = lastReading.blue.rate * 0.9 + rateBlue * 0.1;
+                lastReading.red.rate = lastReading.red.rate * 0.9 + rateRed * 0.1;
+            }
 
-
-
-            lastReading.blue = {
-                width: widthBlue,
-                rate: lastReading.blue.rate * 0.9 + rateBlue * 0.1
-            };
-
-            lastReading.red = {
-                width: widthRed,
-                rate: lastReading.red.rate * 0.9 + rateRed * 0.1
-            };
+            lastReading.blue.width = widthBlue;
+            lastReading.red.width = widthRed;
 
             lastReading.time = Date.now();
 
             const barFillWithinOneSec = [widthBlue + lastReading.blue.rate, widthRed + lastReading.red.rate].some(val => val >= 100);
-
             if (!ambrosiaLoadoutSelected && barFillWithinOneSec) {
                 loadoutSlots.at(loadoutLuck.selectedIndex).click();
                 okButton.click();
@@ -181,14 +177,9 @@
             if (currentlyLooping)
                 return;
             lastReading.time = Date.now();
-            lastReading.blue = {
-                width: parseFloat(ambrosiaProgress.style.width),
-                rate: 3,
-            };
-            lastReading.red = {
-                width: parseFloat(redAmbrosiaProgress.style.width),
-                rate: 0.5,
-            };
+            lastReading.blue.width = parseFloat(ambrosiaProgress.style.width);
+            lastReading.red.width = parseFloat(redAmbrosiaProgress.style.width);
+
             loop();
         }
 
