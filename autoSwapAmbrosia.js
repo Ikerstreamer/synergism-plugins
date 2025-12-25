@@ -15,6 +15,8 @@
         const ambrosiaTab = document.getElementById("toggleSingularitySubTab5");
         const ambrosiaBar = document.getElementById("ambrosiaProgressBar");
         const ambrosiaProgress = document.getElementById("ambrosiaProgress");
+        const redAmbrosiaBar = document.getElementById("pixelProgressBar");
+        const redAmbrosiaProgress = document.getElementById("pixelProgress");
         const okButton = document.getElementById("ok_alert");
         const tooltipModal = document.getElementById("modal");
         const tooltipText = document.getElementById("modalContent");
@@ -130,12 +132,12 @@
                 return;
             }
 
-            if (!ambrosiaLoadoutSelected && parseFloat(ambrosiaProgress.style.width) > 97) {
+            if (!ambrosiaLoadoutSelected && Math.max(parseFloat(ambrosiaProgress.style.width), parseFloat(redAmbrosiaProgress.style.width)) > 97) {
                 loadoutSlots.at(loadoutLuck.selectedIndex).click();
                 okButton.click();
                 ambrosiaLoadoutSelected = true;
             }
-            if (ambrosiaLoadoutSelected && parseFloat(ambrosiaProgress.style.width) < 97) {
+            if (ambrosiaLoadoutSelected && Math.max(parseFloat(ambrosiaProgress.style.width), parseFloat(redAmbrosiaProgress.style.width)) < 97) {
                 loadoutSlots.at(loadoutStandard.selectedIndex).click();
                 okButton.click();
                 ambrosiaLoadoutSelected = false;
