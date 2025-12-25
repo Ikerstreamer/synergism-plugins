@@ -122,8 +122,14 @@
 
         const lastReading = {
             time: Date.now(),
-            blue: parseFloat(ambrosiaProgress.style.width),
-            red: parseFloat(redAmbrosiaProgress.style.width),
+            blue: {
+                width: parseFloat(ambrosiaProgress.style.width),
+                rate: 3,
+            },
+            red: {
+                width: parseFloat(redAmbrosiaProgress.style.width),
+                rate: 0.5,
+            }
         };
         function loop() {
             currentlyLooping = true;
@@ -144,10 +150,16 @@
 
             const barFillWithinOneSec = [widthBlue + rateBlue, widthRed + rateRed].some(val => val >= 100);
 
-            lastReading.blue = widthBlue;
-            lastReading.red = widthRed;
+            lastReading.blue = {
+                width: widthBlue,
+                rate: lastReading.blue.rate * 0.9 + rateBlue * 0.1
+            };
+            lastReading.red = {
+                width: widthRed,
+                rate: lastReading.red.rate * 0.9 + rateRed * 0.1
+            };
             lastReading.time = Date.now();
-            console.log([widthBlue, widthRed], [rateBlue, rateRed], diffInSeconds, barFillWithinOneSec);
+
             if (!ambrosiaLoadoutSelected && barFillWithinOneSec) {
                 loadoutSlots.at(loadoutLuck.selectedIndex).click();
                 okButton.click();
@@ -165,8 +177,14 @@
             if (currentlyLooping)
                 return;
             lastReading.time = Date.now();
-            lastReading.blue = parseFloat(ambrosiaProgress.style.width);
-            lastReading.red = parseFloat(redAmbrosiaProgress.style.width);
+            lastReading.blue = {
+                width: parseFloat(ambrosiaProgress.style.width),
+                rate: 3,
+            };
+            lastReading.red = {
+                width: parseFloat(redAmbrosiaProgress.style.width),
+                rate: 0.5,
+            };
             loop();
         }
 
