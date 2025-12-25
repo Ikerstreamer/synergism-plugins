@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Ambrosia Loadout Quickbar
 // @namespace    https://github.com/Ikerstreamer/synergism-plugins
-// @version      0.2
+// @version      0.1.1
 // @description  A simple script for the game synergism that allows you to import ambrosia loadouts via clipboard.
 // @author       IkerStream
 // @match        https://synergism.cc/
